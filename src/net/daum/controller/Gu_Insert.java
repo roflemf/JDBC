@@ -1,9 +1,39 @@
 package net.daum.controller;
 
+import java.util.Scanner;
+
+import net.daum.dao.GuDAOImpl;
+import net.daum.vo.GuVO;
+
 public class Gu_Insert {
 	public static void main(String[] args) {
-
-			
+		GuDAOImpl gd = new GuDAOImpl();
+			//스캐너로 글쓴이, 글제목, 글내용 입력받아서 전달
+			//일반적으로 String 3개 넘기면된다, 그러나 데이터 저장 빈 클래스를 이용해서 전달해본다.
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.print("글쓴이: ");
+		String gname = sc.nextLine();
+		System.out.print("글제목: ");
+		String gtitle = sc.nextLine();
+		System.out.print("글내용: ");
+		String gcont = sc.nextLine();
+	
+		
+		GuVO gv = new GuVO();
+		gv.setGname(gname);
+		gv.setGtitle(gtitle);
+		gv.setGcont(gcont);
+		
+		//gd.insertGu(gname, gtitle, gcont); 각 String형을 넘기는 대신 데이터 저장 빈 클래스에 값을 저장 후 
+		//객체 자체를 넘김
+		int result = gd.insertGu(gv);	
+		
+		if(result==1) {
+			System.out.println("Insert 완료");
+		}else {
+			System.out.println("Insert 실패");
+		}
 		}
 	}
 
@@ -16,7 +46,7 @@ public class Gu_Insert {
  * 	   gname  varchar 20        not null
  * 	   gtitle varchar 200       not null
  * 	   gcont  varchar 4000      not null
- * 	   gcdate date    default   sysdate
+ * 	   gdate date    default   sysdate
  * 
  * 	2. net.daum.vo패키지의 GuVo.java 데이터 저장 빈 클래스를 생성후 
  * 	   tbl_gu테이블의 컬럼명과 같은 변수명 정의

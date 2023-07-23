@@ -58,4 +58,33 @@ public class GuDAOImpl {
 		return null;
 	}
 
+	public int insertGu(GuVO g){
+		//Oracle 데이터베이스에서는 insert 성공시 int 1 반환, 실패시 int -1 반환
+		int result=-1;
+		
+		try {
+			Class.forName(driver); //oracle.jdbc.OracleDriver를 로드한다. (import와 유사)
+			con = DriverManager.getConnection(url, user, password);
+			sql = "insert into tbl_gu values (gno_seq10.nextval, ?, ?, ?, sysdate)";
+			pt = con.prepareStatement(sql);
+			pt.setString(1, g.getGname());
+			pt.setString(2, g.getGtitle());
+			pt.setString(3, g.getGcont());
+			//pt.setInt(4, g.getGno());
+			
+			result = pt.executeUpdate(); //executeQuery는 리턴이 RusultSet 자료형
+										//executeUpdate는 리터이 Int 형. 성공시 1 실패시 -1
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+				pt.close();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 }
