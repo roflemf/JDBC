@@ -9,7 +9,7 @@ import java.util.List;
 
 import net.daum.vo.BoardVO;
 
-public class BoardDAOImpl { //데이터 베이스 연결 클래스
+public class BoardDAOImpl { //데이터 베이스 연결 클래스 => JDBC 연결 프로그램
 
 	String driver = "oracle.jdbc.OracleDriver"; //oracle.jdbc는 패키지명, OracleDriver는 jdbc드라이버 클래스명
 	String url = "jdbc:oracle:thin:@localhost:1521:xe"; //오라클 접속주소,localhost는 모든 내자신 컴퓨터 호스트 이름,1521은 오라클 연결 포트번호,

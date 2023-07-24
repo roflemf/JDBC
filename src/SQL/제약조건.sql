@@ -156,3 +156,58 @@ create table dept60(
      
      select * from dept71 inner join emp71 on dept71.deptno=emp71.deptno;
      select * from dept71 inner join emp71 using (deptno);
+     
+     
+     
+     
+     --0724
+     
+     --기본키가 있는 학과 테이블 생성
+     create table depart71(
+     deptcode varchar2(10) constraint depart71_dpetcode_pk primary key --학과 코드
+     ,deptname varchar2(50) constraint depart71_deptname_nn not null --학과 이름
+     );
+     
+     insert into depart71 values('a001','영어교육학과');
+     insert into depart71 values('a002','컴퓨터공학과');
+     
+     select * from depart71 order by deptcode asc;
+     
+     --외래키가 있는 학생테이블 student71을 생성
+     create table student71(
+     sno number(38) constraint student71_sno_pk primary key --학번 (primary key : 중복자료가 없고 null이 없음)
+     ,sname varchar2(50) constraint sutdent71_sname_nn not null --학생이름
+     ,gender varchar2(10) constraint sutdent71_gender_nn not null --성별
+     ,addr varchar2(300) --주소
+     ,deptcode varchar2(10) constraint sutdent71_deptcode_fk references depart71(deptcode)-- 외래키 설정
+     );
+     
+     insert into student71 values(101,'홍길동','남','서울시','a001');
+     insert into student71 values(102,'이순신','남','서울시','a002');
+     
+     select * from student71 order by sno asc;
+     
+     /*문제 ) 
+     inner join말고 학과 코드 공통 컬럼을 기준으로 equi JOIN 검색문을 작성 */
+     select * from student71, depart71 where student71.deptcode=depart71.deptcode;
+     
+     
+     select table_name,constraint_type, constraint_name, r_constraint_name from user_constraints --  r_은 외래키
+     where table_name in('DEPART71','STUDENT71');
+     
+     --CHECK 제약조건 실습을 위한 테이블 생성
+     create table emp73(
+      empno number(38) constraint emp73_empno_pk primary key--사원번호
+      ,ename varchar2(50) constraint emp73_enmae_nn not null--사원명
+      ,sal number(38) constraint emp73_sal_ck check(sal between 500 and 5000) --급여, check제약조건을 주면서 급여가 500부터 5000까지만 저장되게 함
+      ,gender varchar2(6) constraint emp73_gender_ck check(gender in('M','F'))--성별, in;or연산
+      );
+      
+      
+      insert into emp73 values(1101,'홍길동',8000,'M');--급여가 500에서 5000사이 범위를 벗어나 check제약조건 위배
+      insert into emp73 values(1101,'홍길동',5000,'M');
+      insert into emp73 values(1102,'홍길동',500,'M');
+      insert into emp73 values(1103,'신사임당',3000,'C'); --gender컬럼에는 M이나 F 벗어나면 check제약조건 위배
+      
+      select * from emp73;
+      

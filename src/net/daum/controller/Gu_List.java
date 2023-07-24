@@ -23,9 +23,9 @@ public class Gu_List {
 			System.out.println("글번호: " + g.getGno());
 			System.out.println("글쓴이: " + g.getGname());
 			System.out.println("글제목: " + g.getGtitle());
-			System.out.println("글제목: " + g.getGcont());
+			System.out.println("글내용: " + g.getGcont());
 			System.out.println("작성일자: " + g.getGdate());
-			System.out.println("==============");
+			System.out.println("====================");
 		}
 	}
 }
